@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Redux-chrome-extension",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "A starter boilerplate for a Chrome Extension using Redux and React.js.",
+    "description": "The description of the application"
+  }
+}
