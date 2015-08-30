@@ -1,5 +1,4 @@
-// Generated on 2015-08-28 using generator-chrome-extension 0.3.1
-'use strict';
+
 
 // # Globbing
 // for performance reasons we're only matching one level down:
