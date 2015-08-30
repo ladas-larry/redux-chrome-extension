@@ -2,7 +2,9 @@ console.log(">>Hello world from content scripts<<")
 
 
 
-//Extension communication - get initial store
+//Extension communication
+
+//Get initial store from Background Page
 /*chrome.runtime.sendMessage({
   action: 'getStore'
 }, function (res) {
@@ -12,7 +14,7 @@ console.log(">>Hello world from content scripts<<")
   }
 });
 
-//Extension communication - receiving updates
+//Receiving updates from Popup window
 chrome.runtime.onMessage.addListener(
   function (req, sender, sendResponse) {
     if (req.action === 'updateStore') {
@@ -21,7 +23,7 @@ chrome.runtime.onMessage.addListener(
   });*/
 
 
-//Extension communication - dispatching updates
+//Dispatching updates to Popup Window, Background Page and the rest of Content Scripts
 /*store.subscribe(() =>
 chrome.runtime.sendMessage({
   action: 'updateStore',

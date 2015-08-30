@@ -2,7 +2,9 @@ console.log(">>Hello world from popup script<<")
 
 
 
-//Extension communication - get initial store from
+//Extension communication
+
+//Get initial store from Background Page
 /*chrome.runtime.sendMessage({
  action: 'getStore'
  }, function (res) {
@@ -13,8 +15,7 @@ console.log(">>Hello world from popup script<<")
  });
 
 
-
-//Extension communication - dispatching updates
+//Dispatching updates to Background Page and Content Scripts
 store.subscribe(() =>
 chrome.runtime.sendMessage({
   action: 'updateStore',
@@ -34,3 +35,9 @@ for (var i = 0; i < tabs.length; ++i) {
 }
 });
 );
+
+
+
+//Receiving updates from Content Scripts
+
+

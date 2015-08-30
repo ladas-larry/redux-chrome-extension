@@ -38,3 +38,7 @@ You can distribute the compressed file using the Chrome Developer Dashboard to p
 grunt build
 ```
 
+
+
+TODO
+- NPM build
