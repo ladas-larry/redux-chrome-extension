@@ -32,3 +32,4 @@ gulp build
 
 TODO
 - NPM build
+- Hot loading
