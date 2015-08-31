@@ -3,6 +3,9 @@
   "version": "0.0.2",
   "author": "Ladislav Maxa <ladislavmaxa@outlook.com> (https://github.com/Dharmoslap)",
   "license": "ISC",
+  "scripts": {
+    "gulp": "gulp"
+  }
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dharmoslap/redux-chrome-extension.git"
