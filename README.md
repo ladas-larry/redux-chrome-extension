@@ -5,6 +5,11 @@ Redux Chrome Extension
 A starter boilerplate for a Chrome Extension using Redux and React.js.
 
 
+Bundling process
+
+https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
+https://github.com/gulpjs/gulp/blob/master/docs/recipes/delete-files-folder.md
+https://github.com/gulpjs/gulp/blob/master/docs/recipes/automate-release-workflow.md
 
 ## Example app
 - There is an example application
