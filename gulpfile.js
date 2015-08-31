@@ -7,42 +7,7 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var gutil = require('gulp-util');
-
-
-//Object.assign polyfill
-if (!Object.assign) {
-  Object.defineProperty(Object, 'assign', {
-    enumerable: false,
-    configurable: true,
-    writable: true,
-    value: function(target) {
-      'use strict';
-      if (target === undefined || target === null) {
-        throw new TypeError('Cannot convert first argument to object');
-      }
-
-      var to = Object(target);
-      for (var i = 1; i < arguments.length; i++) {
-        var nextSource = arguments[i];
-        if (nextSource === undefined || nextSource === null) {
-          continue;
-        }
-        nextSource = Object(nextSource);
-
-        var keysArray = Object.keys(Object(nextSource));
-        for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-          var nextKey = keysArray[nextIndex];
-          var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-          if (desc !== undefined && desc.enumerable) {
-            to[nextKey] = nextSource[nextKey];
-          }
-        }
-      }
-      return to;
-    }
-  });
-}
-
+var watchify = require('watchify');
 
 var paths = {
   scripts: ['src/scripts/**/*.js', 'src/scripts/**/**/*.js']
@@ -72,11 +37,13 @@ gulp.task('build', [], function () {
 
 
 function bundle(inputFile, outputDir, outputFile) {
-  b = watchify(browserify(inputFile, options).transform(babelify.configure({
-      plugins: ['object-assign']
-    }))
-  );
-  b.on('update', function(){
+  var options = {};
+  for (var opt in watchify.args) {
+    options[opt] = watchify.args[opt];
+  }
+  options.debug = true;
+  var b = watchify(browserify(inputFile, options).transform(babelify));
+  b.on('update', function () {
     bundle(inputFile, outputDir, outputFile);
   });
   b.on('log', gutil.log);
@@ -95,7 +62,8 @@ function bundle(inputFile, outputDir, outputFile) {
 }
 
 
-gulp.task('js', function(){
+gulp.task('js', function () {
+  livereload.listen();
   bundle('./src/scripts/background.js', './app/scripts/', 'background.js');
   bundle('./src/scripts/popup.js', './app/scripts/', 'popup.js');
   bundle('./src/scripts/content.js', './app/scripts/', 'content.js');
