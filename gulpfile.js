@@ -27,12 +27,12 @@ gulp.task('clean', function (cb) {
 
 
 //build distributable
-gulp.task('build', [], function () {
+gulp.task('build', function () {
   var manifest = require('./app/manifest'),
     distFileName = manifest.name + ' v' + manifest.version + '.zip';
-  return gulp.src(['build/**'])
+  return gulp.src('./app/**')
     .pipe(zip(distFileName))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('./dist'));
 });
 
 
