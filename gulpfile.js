@@ -44,21 +44,14 @@ if (!Object.assign) {
 }
 
 
-
 var paths = {
-  scripts: ['app/scripts/**/*.js', 'app/scripts/**/**/*.js']
+  scripts: ['src/scripts/**/*.js', 'src/scripts/**/**/*.js']
 };
-
-//CSS
 
 gulp.task('watch', function () {
   livereload.listen();
   gulp.watch(paths.scripts, ['scripts']);
 });
-
-
-//build
-
 
 //clean build directory
 gulp.task('clean', function (cb) {
@@ -67,23 +60,6 @@ gulp.task('clean', function (cb) {
   ], cb);
 });
 
-
-//babelify for build, run livereload
-/*gulp.task('scripts', [], function () {
-  return gulp.src(paths.scripts)
-    .pipe(babel())
-    .pipe(gulp.dest('build/scripts'))
-    .pipe(livereload());
-});*/
-
-//compile sass styles
-gulp.task('styles', function () {
-// 	return gulp.src('app/styles/**/*.css')
-// 		.pipe(minifycss({root: 'app/styles', keepSpecialComments: 0}))
-// 		.pipe(gulp.dest('build/styles'));
-  return gulp.src('app/styles/**')
-    .pipe(gulp.dest('build/styles'));
-});
 
 //build distributable
 gulp.task('build', [], function () {
@@ -94,42 +70,6 @@ gulp.task('build', [], function () {
     .pipe(gulp.dest('dist'));
 });
 
-
-
-
-//run all tasks after build directory has been cleaned
-gulp.task('default', ['js']);
-
-
-/*gulp.task('javascript', function () {
-  // set up the browserify instance on a task basis
-  var b = browserify({
-    entries: './entry.js',
-    debug: true
-  });
-  return b.bundle()
-    .pipe(source('app.js'))
-    .pipe(buffer())
-    .on('error', gutil.log)
-    .pipe(gulp.dest('./dist/js/'));
-});*/
-
-gulp.task('js', function(){
-  bundle('./app/scripts/background.js', './build/scripts/', 'background.js');
-  bundle('./app/scripts/popup.js', './build/scripts/', 'popup.js');
-  bundle('./app/scripts/content.js', './build/scripts/', 'content.js');
-  bundle('./app/scripts/options.js', './build/scripts/', 'options.js');
-});
-
-
-
-/*var b = watchify(browserify(Object.assign({}, watchify.args, {
-  entries: ['./src/index.js'],
-  debug: true
-})));*/
-
- // on any dep update, runs the bundler
- // output build logs to terminal
 
 function bundle(inputFile, outputDir, outputFile) {
   b = watchify(browserify(inputFile, options).transform(babelify.configure({
@@ -150,22 +90,17 @@ function bundle(inputFile, outputDir, outputFile) {
       });
     })
     .pipe(source(outputFile))
-    .pipe(gulp.dest(outputDir));
+    .pipe(gulp.dest(outputDir))
+    .pipe(livereload());
 }
 
 
-//extras
+gulp.task('js', function(){
+  bundle('./src/scripts/background.js', './app/scripts/', 'background.js');
+  bundle('./src/scripts/popup.js', './app/scripts/', 'popup.js');
+  bundle('./src/scripts/content.js', './app/scripts/', 'content.js');
+  bundle('./src/scripts/options.js', './app/scripts/', 'options.js');
+});
 
 
-/*gulp.task('tag', function () {
- git.tag('v1.1.1', 'Version message', function (err) {
- if (err) throw err;
- });
- });
-
- // Run git commit
- // src are the files to commit (or ./*)
- gulp.task('commit', function () {
- return gulp.src('./git-test/*')
- .pipe(git.commit('initial commit'));
- });*/
+gulp.task('default', ['js']);
