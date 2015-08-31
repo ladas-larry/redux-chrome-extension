@@ -1,4 +1,4 @@
-console.log(">>Hello world from popup script<<")
+console.log(">>Hello world from popup script! <<")
 
 
 
@@ -35,7 +35,7 @@ for (var i = 0; i < tabs.length; ++i) {
 }
 });
 );
-
+*/
 
 
 //Receiving updates from Content Scripts
