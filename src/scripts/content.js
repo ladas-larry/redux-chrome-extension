@@ -1,1 +1,1 @@
-import 'content/index'
+import './content/index';
