@@ -1,5 +1,5 @@
 console.log(">>Hello world from content scripts<<")
-
+import configureStore from '../shared/store/configureStore';
 
 
 //Extension communication
@@ -19,8 +19,7 @@ console.log(">>Hello world from content scripts<<")
 //Receiving updates from Popup window
 chrome.runtime.onMessage.addListener(
   function (req, sender, sendResponse) {
-    if (req.action === 'updateStore') {
-      console.log('updateStore!!!!');
+    if (req.action === 'updateState') {
       //store.dispatch(action)
     }
   });

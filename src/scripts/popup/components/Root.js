@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import CounterApp from '../containers/CounterApp';
-import configureStore from '../store/configureStore';
+import configureStore from '../../shared/store/configureStore';
 
 const store = configureStore();
 

@@ -1,9 +1,9 @@
-console.log(">>Hello world from popup script! <<")
+console.log(">>Hello world from popup script! <<");
 
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import CounterApp from './containers/CounterApp';
-import configureStore from './store/configureStore';
+import configureStore from '../shared/store/configureStore';
 import Q from 'q';
 
 class Root extends Component {
@@ -17,12 +17,12 @@ class Root extends Component {
 }
 
 //Get initial store from Background Page
-function getInitialStore() {
+function getInitialState() {
   var result = Q.defer();
   chrome.runtime.sendMessage({
-    action: 'getInitialStore'
+    action: 'getInitialState'
   }, function (res) {
-    console.log('getInitialStore', res);
+    console.log('getInitialState', res);
     if (res) {
       result.resolve(res);
     } else {
@@ -32,12 +32,12 @@ function getInitialStore() {
   return result.promise;
 }
 
-getInitialStore().then(function (initialStore) {
+getInitialState().then(function (initialStore) {
   const store = configureStore(initialStore);
 
   store.subscribe(() => {
       let message = {
-        action: 'updateStore',
+        action: 'updateState',
         state: store.getState()
       };
       //Dispatching updates to Background Page
@@ -58,7 +58,15 @@ getInitialStore().then(function (initialStore) {
 
 
 //Receiving updates from Content Scripts
+chrome.runtime.onMessage.addListener(
+  function (req, sender, sendResponse) {
+    if (req.action === 'updateState') {
+      store.dispatch({
+        type: 'UPDATE_STATE',
+        text: req.state
+      });
+    }
 
 
-
+  });
 

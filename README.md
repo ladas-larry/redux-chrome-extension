@@ -53,3 +53,4 @@ gulp build
 TODO
 - NPM build
 - Hot loading
+- move stre folder to share (if we find a way how to combine reducers  per each page)
