@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import counter from './counter';
-import chromeExtension from './chromeExtension';
+import chromeExtension from './../../shared/reducers/chromeExtension';
 
 const rootReducer = combineReducers({
   counter,
