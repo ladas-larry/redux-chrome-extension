@@ -9,19 +9,19 @@ Uses React for Popup window UI.
 ##Schema
 
 
-###Background Page
+**Background Page**
 - Sets initial state for the whole app
 - Passes initial state to Popup Window and Content Scripts
 - Receives state updates from Popup Window and Content Scripts
 
 
-###Popup Window
+**Popup Window**
 - Gets initial state from Background Page
 - Dispatches state updates to Background Page and Content Scripts
 - Receives state updates from Content Scripts, Options
 
 
-###Content Script
+**Content Script**
 - Gets initial state from Background Page
 - Receives state updates from Popup window
 - Dispatches  stateupdates to Popup Window, Background Page and the rest of Content Scripts
@@ -48,6 +48,11 @@ Browserify and Watchify are used for building scripts. (https://github.com/gulpj
 3. Click on Load unpacked extension
 4. Add /dist folder
 
+## Example App
+- There is an example counter application 
+- Extension's code is located in /app folder
+- **Do not edit files in app/scripts/* directly, it will be overwritten**
+
 ## Releasing
 
 ```bash
@@ -56,10 +61,7 @@ gulp release
 
 You can find .zip packages in the /dist folder.
 
-## Example App
-- There is an example counter application 
-- Extension's code is located in /app folder
-- Do not edit files in app/scripts/* directly, it will be overwritten
+
 
 ##TODO
 
