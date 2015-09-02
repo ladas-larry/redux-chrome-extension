@@ -16,7 +16,6 @@ class Root extends Component {
   }
 }
 
-
 //Get initial store from Background Page
 function getInitialStore() {
   var result = Q.defer();
@@ -51,7 +50,6 @@ getInitialStore().then(function (initialStore) {
       });
     }
   );
-
   React.render(
     <Root store={store}/>,
     document.getElementById('root')
