@@ -11,7 +11,7 @@
     "url": "git+https://github.com/Dharmoslap/redux-chrome-extension.git"
   },
   "dependencies": {
-    "react-redux": "~1.0.1",
+    "q": "^1.4.1",
     "react": "^0.13.3",
     "react-redux": "^0.8.0",
     "redux": "~1.0.1",

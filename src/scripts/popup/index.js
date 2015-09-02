@@ -1,26 +1,55 @@
 console.log(">>Hello world from popup script! <<")
 
-import React from 'react';
-import Root from './components/Root';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import CounterApp from './containers/CounterApp';
+import configureStore from './store/configureStore';
+import Q from 'q';
 
-React.render(
-<Root />,
-  document.getElementById('root')
-);
+class Root extends Component {
+  render() {
+    return (
+      <Provider store={this.props.store}>
+        {() => <CounterApp />}
+      </Provider>
+    );
+  }
+}
+
+
+//Get initial store from Background Page
+function getInitialStore(){
+  var result = Q.defer();
+  chrome.runtime.sendMessage({
+    action: 'getInitialStore'
+  }, function (res) {
+    console.log('getInitialStore', res);
+    if (res) {
+      result.resolve(res);
+    }else{
+      result.reject(new Error('Cannot reach Background Page'));
+    }
+  });
+  return result.promise;
+}
+
+getInitialStore().then(function(initialStore){
+  const store = configureStore(initialStore);
+  React.render(
+    <Root store={store} />,
+    document.getElementById('root')
+  );
+});
+
+
+
+
+
 
 
 //Extension communication
 
-//Get initial store from Background Page
-/*chrome.runtime.sendMessage({
- action: 'getStore'
- }, function (res) {
- console.log('getStore', res);
- if (res) {
- initialStore = res
- }
- });
-
+/*
 
 //Dispatching updates to Background Page
 store.subscribe(() =>
