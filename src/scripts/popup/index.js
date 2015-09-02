@@ -6,6 +6,9 @@ import CounterApp from './containers/CounterApp';
 import configureStore from '../shared/store/configureStore';
 import Q from 'q';
 
+
+var store = {};
+
 class Root extends Component {
   render() {
     return (
@@ -57,7 +60,7 @@ getInitialState().then(function (initialStore) {
 });
 
 
-//Receiving updates from Content Scripts
+//Receiving updates from Content Scripts, maybe into getInitialState
 chrome.runtime.onMessage.addListener(
   function (req, sender, sendResponse) {
     if (req.action === 'updateState') {
@@ -66,7 +69,5 @@ chrome.runtime.onMessage.addListener(
         text: req.state
       });
     }
-
-
   });
 
