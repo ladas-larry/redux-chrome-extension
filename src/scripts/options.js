@@ -1,3 +1,2 @@
-'use strict';
-
-console.log('\'Allo \'Allo! Option');
+console.log('Greetings from Options');
+import './options/index';

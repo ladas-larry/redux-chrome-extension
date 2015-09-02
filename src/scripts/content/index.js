@@ -1,4 +1,3 @@
-console.log(">>Hello world from content scripts<<");
 import configureStore from '../shared/store/configureStore';
 import Q from 'q';
 
@@ -38,10 +37,6 @@ getInitialState().then(function (initialStore) {
         }
       });
     }
-  );
-  React.render(
-    <Root store={store}/>,
-    document.getElementById('root')
   );
 });
 

@@ -1,5 +1,3 @@
-console.log(">>Hello world from popup script! <<");
-
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import CounterApp from './containers/CounterApp';
