@@ -2,26 +2,34 @@
 
 
 A starter boilerplate for a Chrome Extension using Redux and React.js.
+It handles store syncing throughout the whole Extension.
+
+
 
 ##Schema
 
 
-Background Page
-- Passing initial state to Popup Window and Content Scripts
-- Optionally reads localstorage
-- Receiving updates from Popup Window and Content Scripts
-
-Content Script
-- Get initial store from Background Page
-- Receiving updates from Popup window
-- Dispatching updates to Popup Window, Background Page and the rest of Content Scripts
+###Background Page
+- Sets initial state for the whole app
+- Passes initial state to Popup Window and Content Scripts
+- Receives state updates from Popup Window and Content Scripts
 
 
-Popup Window
-- Get initial store from Background Page
-- Dispatching updates to Background Page and Content Scripts
-- Receiving updates from Content Scripts, Options
+###Popup Window
+- Gets initial state from Background Page
+- Dispatches state updates to Background Page and Content Scripts
+- Receives state updates from Content Scripts, Options
 
+
+###Content Script
+- Gets initial state from Background Page
+- Receives state updates from Popup window
+- Dispatches  stateupdates to Popup Window, Background Page and the rest of Content Scripts
+
+
+## Installation
+
+`npm install`
 
 ## Development
 
@@ -31,26 +39,28 @@ Popup Window
 gulp
 ```
 
-https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
+Browserify and Watchify are used for building scripts. (https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md)
 
-## Build
 
+
+1. In Chrome open chrome://extensions/
+2. Select Developer mode
+3. Click on Load unpacked extension
+4. Add /dist folder
+
+## Releasing
 
 ```bash
-gulp build
+gulp release
 ```
 
-## Example app
+You can find .zip packages in the /dist folder.
 
-- There is an example application
+## Example App
+- There is an example counter application 
+- Extension's code is located in /app folder
+- Do not edit files in app/scripts/* directly, it will be overwritten
 
-- After saving any changes in the /scripts this example app, there will 
+##TODO
 
-- The application's code is located only in /dist folder, so after saving any change in the /src folder, the application will be rewritten with yourcode
-
-
-
-TODO
-- NPM build
 - Hot loading
-- move stre folder to share (if we find a way how to combine reducers  per each page)

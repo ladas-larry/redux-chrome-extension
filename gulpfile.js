@@ -27,7 +27,7 @@ gulp.task('clean', function (cb) {
 
 
 //build distributable
-gulp.task('build', function () {
+gulp.task('release', function () {
   var manifest = require('./app/manifest'),
     distFileName = manifest.name + ' v' + manifest.version + '.zip';
   return gulp.src('./app/**')
