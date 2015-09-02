@@ -34,12 +34,9 @@ Uses React for Popup window UI.
 ## Development
 
 
+`gulp`
 
-```bash
-gulp
-```
-
-Browserify and Watchify are used for building scripts. (https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md)
+Browserify and Watchify are used for building scripts. For more details see: (https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md)
 
 
 
