@@ -3,7 +3,7 @@
 
 A starter boilerplate for a Chrome Extension using Redux and React.js.
 It handles store syncing throughout the whole Extension.
-
+Uses React for Popup window UI.
 
 
 ##Schema
