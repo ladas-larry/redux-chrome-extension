@@ -1,5 +1,12 @@
 console.log(">>Hello world from popup script! <<")
 
+import React from 'react';
+import Root from './components/Root';
+
+React.render(
+<Root />,
+  document.getElementById('root')
+);
 
 
 //Extension communication
@@ -15,7 +22,7 @@ console.log(">>Hello world from popup script! <<")
  });
 
 
-//Dispatching updates to Background Page and Content Scripts
+//Dispatching updates to Background Page
 store.subscribe(() =>
 chrome.runtime.sendMessage({
   action: 'updateStore',
@@ -24,6 +31,7 @@ chrome.runtime.sendMessage({
 //store.getState()
 });
 
+ //Dispatching updates Content Scripts
 chrome.tabs.query({}, function (tabs) {
   var message = {
     action: 'updateStore',

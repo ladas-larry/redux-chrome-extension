@@ -3,6 +3,26 @@
 
 A starter boilerplate for a Chrome Extension using Redux and React.js.
 
+##Schema
+
+
+Background Page
+- Passing initial state to Popup Window and Content Scripts
+- Optionally reads localstorage
+- Receiving updates from Popup Window and Content Scripts
+
+Content Script
+- Get initial store from Background Page
+- Receiving updates from Popup window
+- Dispatching updates to Popup Window, Background Page and the rest of Content Scripts
+
+
+Popup Window
+- Get initial store from Background Page
+- Dispatching updates to Background Page and Content Scripts
+- Receiving updates from Content Scripts, Options
+
+
 ## Development
 
 

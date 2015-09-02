@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(
   });*/
 
 
-//Dispatching updates to Popup Window, Background Page and the rest of Content Scripts
+//Dispatching updates to Popup Window and Background Page
 /*store.subscribe(() =>
 chrome.runtime.sendMessage({
   action: 'updateStore',
@@ -32,7 +32,7 @@ chrome.runtime.sendMessage({
 //store.getState()
 });
 
-//all the other tabs
+//Dispatching updates to the rest of Content Scripts
 chrome.tabs.query({}, function (tabs) {
   var message = {
     action: 'updateStore',
@@ -44,3 +44,14 @@ for (var i = 0; i < tabs.length; ++i) {
 }
 });
 );*/
+
+
+/*
+var port = chrome.runtime.connect({name: "knockknock"});
+port.postMessage({joke: "Knock knock"});
+port.onMessage.addListener(function(msg) {
+  if (msg.question == "Who's there?")
+    port.postMessage({answer: "Madame"});
+  else if (msg.question == "Madame who?")
+    port.postMessage({answer: "Madame... Bovary"});
+});*/

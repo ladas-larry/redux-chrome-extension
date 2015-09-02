@@ -5,12 +5,18 @@
   "license": "ISC",
   "scripts": {
     "gulp": "gulp"
-  }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dharmoslap/redux-chrome-extension.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react-redux": "~1.0.1",
+    "react": "^0.13.3",
+    "react-redux": "^0.8.0",
+    "redux": "~1.0.1",
+    "redux-thunk": "~0.1.0"
+  },
   "devDependencies": {
     "babelify": "^6.3.0",
     "browserify": "^11.0.1",
