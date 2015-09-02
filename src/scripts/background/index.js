@@ -8,7 +8,8 @@ chrome.runtime.onMessage.addListener(
     console.log(req);
     // Receiving updates from Popup Window and Content Scripts
     if (req.action === 'updateStore') {
-      store.dispatch(action)
+      console.log('updateStore!!!!');
+      //store.dispatch(action)
     }
 
     // Passing initial state to Popup Window and Content Scripts

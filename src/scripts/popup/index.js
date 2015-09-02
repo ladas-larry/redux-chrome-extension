@@ -18,7 +18,7 @@ class Root extends Component {
 
 
 //Get initial store from Background Page
-function getInitialStore(){
+function getInitialStore() {
   var result = Q.defer();
   chrome.runtime.sendMessage({
     action: 'getInitialStore'
@@ -26,55 +26,41 @@ function getInitialStore(){
     console.log('getInitialStore', res);
     if (res) {
       result.resolve(res);
-    }else{
+    } else {
       result.reject(new Error('Cannot reach Background Page'));
     }
   });
   return result.promise;
 }
 
-getInitialStore().then(function(initialStore){
+getInitialStore().then(function (initialStore) {
   const store = configureStore(initialStore);
+
+  store.subscribe(() => {
+      let message = {
+        action: 'updateStore',
+        state: store.getState()
+      };
+      //Dispatching updates to Background Page
+      chrome.runtime.sendMessage(message);
+      //Dispatching updates Content Scripts
+      chrome.tabs.query({}, function (tabs) {
+        for (var i = 0; i < tabs.length; ++i) {
+          chrome.tabs.sendMessage(tabs[i].id, message);
+        }
+      });
+    }
+  );
+
   React.render(
-    <Root store={store} />,
+    <Root store={store}/>,
     document.getElementById('root')
   );
 });
 
 
-
-
-
-
-
-//Extension communication
-
-/*
-
-//Dispatching updates to Background Page
-store.subscribe(() =>
-chrome.runtime.sendMessage({
-  action: 'updateStore',
-  store: //store.getState(),
-    sender: 'xxx' //current action
-//store.getState()
-});
-
- //Dispatching updates Content Scripts
-chrome.tabs.query({}, function (tabs) {
-  var message = {
-    action: 'updateStore',
-    store: //store.getState(),
- sender: 'xxx' //current action
-};
-for (var i = 0; i < tabs.length; ++i) {
-  chrome.tabs.sendMessage(tabs[i].id, message);
-}
-});
-);
-*/
-
-
 //Receiving updates from Content Scripts
+
+
 
 
