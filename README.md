@@ -10,22 +10,26 @@ Uses React for Popup window UI.
 
 
 **Background Page**
-- Sets initial state for the whole app
-- Passes initial state to Popup Window and Content Scripts
-- Receives state updates from Popup Window and Content Scripts
+- sets initial state for the whole app
+- passes initial state to Popup Window and Content Scripts
+- receives state updates from Popup Window and Content Scripts
 
 
 **Popup Window**
-- Gets initial state from Background Page
-- Dispatches state updates to Background Page and Content Scripts
-- Receives state updates from Content Scripts, Options
+- gets initial state from Background Page
+- dispatches state updates to Background Page and Content Scripts
+- receives state updates from Content Scripts, Options
 
 
 **Content Script**
-- Gets initial state from Background Page
-- Receives state updates from Popup window
-- Dispatches  stateupdates to Popup Window, Background Page and the rest of Content Scripts
+- gets initial state from Background Page
+- receives state updates from Popup window
+- dispatches state updates to Popup Window, Background Page and the rest of Content Scripts
 
+
+**Options Page**
+- gets initial state from Background Page
+- dispatches state updates to Popup Window, Background Page and Content Scripts
 
 ## Installation
 

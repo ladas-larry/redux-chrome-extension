@@ -41,15 +41,4 @@ getInitialState().then(function (initialStore) {
 });
 
 
-//Receiving updates from Popup window
-chrome.runtime.onMessage.addListener(
-  function (req, sender, sendResponse) {
-    if (req.action === 'updateState') {
-      store.dispatch({
-        type: 'UPDATE_STATE',
-        text: req.state
-      });
-    }
-  });
-
 
