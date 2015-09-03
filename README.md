@@ -67,3 +67,5 @@ You can find .zip packages in the /dist folder.
 ##TODO
 
 - Hot loading
+
+- For global state use just 1 reducer
