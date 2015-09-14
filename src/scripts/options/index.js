@@ -21,7 +21,7 @@ function getInitialState() {
 }
 
 getInitialState().then(function (initialStore) {
-  const store = configureStore(initialStore);
+  store = configureStore(initialStore);
 
   store.subscribe(() => {
       let message = {

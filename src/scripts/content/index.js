@@ -21,21 +21,21 @@ function getInitialState() {
 }
 
 getInitialState().then(function (initialStore) {
-  const store = configureStore(initialStore);
+  store = configureStore(initialStore);
 
   store.subscribe(() => {
       let message = {
         action: 'updateState',
         state: store.getState()
       };
-      //Dispatching updates to Popup Window and Background Page
+      //Dispatching updates to Background Page
       chrome.runtime.sendMessage(message);
       //Dispatching updates to the rest of Content Scripts
-      chrome.tabs.query({}, function (tabs) {
+      /*chrome.tabs.query({}, function (tabs) {
         for (var i = 0; i < tabs.length; ++i) {
           chrome.tabs.sendMessage(tabs[i].id, message);
         }
-      });
+      });*/
     }
   );
 });

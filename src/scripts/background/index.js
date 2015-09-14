@@ -16,7 +16,6 @@ chrome.runtime.onMessage.addListener(
         text: req.state
       });
     }
-
     // Passing initial state to Popup Window and Content Scripts
     if (req.action === 'getInitialState') {
       sendResponse(store.getState()); //store.getState()

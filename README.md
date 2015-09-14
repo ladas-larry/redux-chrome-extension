@@ -3,37 +3,39 @@
 
 A starter boilerplate for a Chrome Extension using Redux and React.js.
 It handles store syncing throughout the whole Extension.
-Uses React for Popup window UI.
+Uses React for Popup window UI. Console.log in every part of extensions for better debugging.
 
 
 ##Schema
 
+Uses https://developer.chrome.com/extensions/messaging
 
 **Background Page**
 - sets initial state for the whole app
-- passes initial state to Popup Window and Content Scripts
-- receives state updates from Popup Window and Content Scripts
+- passes initial state to Popup Window and Content Scripts and Options
+- receives state updates from Popup Window, Content Scripts and Options
 
 
 **Popup Window**
 - gets initial state from Background Page
-- dispatches state updates to Background Page and Content Scripts
-- receives state updates from Content Scripts, Options
+- dispatches state updates to Background Page (and Content Scripts)
 
 
 **Content Script**
 - gets initial state from Background Page
-- receives state updates from Popup window
-- dispatches state updates to Popup Window, Background Page and the rest of Content Scripts
+- receives state updates from Popup window 
+- dispatches state updates to Background Page (and the rest of Content Scripts)
 
 
 **Options Page**
 - gets initial state from Background Page
-- dispatches state updates to Popup Window, Background Page and Content Scripts
+- dispatches state updates to Background Page
+
+*** code for functionality that is in parenthesis was commented out ***
 
 ## Installation
 
-`npm install`
+`npm i`
 
 ## Development
 
@@ -69,3 +71,9 @@ You can find .zip packages in the /dist folder.
 - Hot loading
 
 - For global state use just 1 reducer
+
+- Handle local storage for store initialization
+
+
+
+

@@ -34,7 +34,7 @@ function getInitialState() {
 }
 
 getInitialState().then(function (initialStore) {
-  const store = configureStore(initialStore);
+  store = configureStore(initialStore);
 
   store.subscribe(() => {
       let message = {
@@ -44,11 +44,11 @@ getInitialState().then(function (initialStore) {
       //Dispatching updates to Background Page
       chrome.runtime.sendMessage(message);
       //Dispatching updates Content Scripts
-      chrome.tabs.query({}, function (tabs) {
+      /*chrome.tabs.query({}, function (tabs) {
         for (var i = 0; i < tabs.length; ++i) {
           chrome.tabs.sendMessage(tabs[i].id, message);
         }
-      });
+      });*/
     }
   );
   React.render(
@@ -58,14 +58,4 @@ getInitialState().then(function (initialStore) {
 });
 
 
-//Receiving updates from Content Scripts, maybe into getInitialState
-chrome.runtime.onMessage.addListener(
-  function (req, sender, sendResponse) {
-    if (req.action === 'updateState') {
-      store.dispatch({
-        type: 'UPDATE_STATE',
-        text: req.state
-      });
-    }
-  });
 
