@@ -44,10 +44,11 @@ getInitialState().then(function (initialStore) {
 //Receiving updates from Popup window
 chrome.runtime.onMessage.addListener(
   function (req, sender, sendResponse) {
+    console.log('onMessage recieved');
     if (req.action === 'updateState') {
       store.dispatch({
         type: 'UPDATE_STATE',
-        text: req.state
+        state: req.state
       });
     }
   });

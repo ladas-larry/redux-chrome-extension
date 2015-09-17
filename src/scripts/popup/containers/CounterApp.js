@@ -1,11 +1,13 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+//APP CODE, should be modified or deleted
 import Counter from '../components/Counter';
-import * as CounterActions from '../../shared/actions/counter';
+import * as CounterActions from '../../shared/actions/chromeExtension';
 
 function mapStateToProps(state) {
   return {
-    counter: state.counter
+    state: state
   }
 }
 

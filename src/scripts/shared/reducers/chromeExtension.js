@@ -1,13 +1,23 @@
-import { UPDATE_STATE } from '../actions/chromeExtension.js';
+import { INCREMENT_COUNTER, DECREMENT_COUNTER, UPDATE_STATE } from '../actions/chromeExtension.js';
 
-
-var initialState = {};
-
-export default function chromeExtensions(state = initialState, action) {
+export default function chromeExtension(state = {test:'test', count:1}, action) {
   switch (action.type) {
     case UPDATE_STATE:
-      return Object.assign({}, action.state);
+      console.log('UPDATE_STATE', action.state);
+      var newState = Object.assign({}, state, action.state);
+      //run only in backround page
+      if(location.protocol == 'chrome-extension:' && chrome.extension.getBackgroundPage() === window){
+        localStorage.setItem('persistent', JSON.stringify(newState.persistent));
+      }
+      return newState;
+    //app implementation
+    case INCREMENT_COUNTER:
+      return Object.assign({}, state, {count: state.count + 1});
+    case DECREMENT_COUNTER:
+      return Object.assign({}, state, {count: state.count - 1});
     default:
       return state;
   }
 }
+
+

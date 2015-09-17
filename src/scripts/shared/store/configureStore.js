@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from '../reducers';
+import chromeExtension from '../reducers/chromeExtension';
 
 const createStoreWithMiddleware = applyMiddleware(
   thunk
 )(createStore);
 
 export default function configureStore(initialState) {
-  return createStoreWithMiddleware(rootReducer, initialState);
+  return createStoreWithMiddleware(chromeExtension, initialState);
 }

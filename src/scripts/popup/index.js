@@ -9,6 +9,7 @@ var store = {};
 
 class Root extends Component {
   render() {
+    console.log('%cRender ' + this.constructor.displayName + ' component', 'background: #FFF; color: #2aa198 ', 'state', this.state, 'props', this.props);
     return (
       <Provider store={this.props.store}>
         {() => <CounterApp />}
@@ -44,11 +45,11 @@ getInitialState().then(function (initialStore) {
       //Dispatching updates to Background Page
       chrome.runtime.sendMessage(message);
       //Dispatching updates Content Scripts
-      /*chrome.tabs.query({}, function (tabs) {
+      chrome.tabs.query({}, function (tabs) {
         for (var i = 0; i < tabs.length; ++i) {
           chrome.tabs.sendMessage(tabs[i].id, message);
         }
-      });*/
+      });
     }
   );
   React.render(
@@ -56,6 +57,3 @@ getInitialState().then(function (initialStore) {
     document.getElementById('root')
   );
 });
-
-
-

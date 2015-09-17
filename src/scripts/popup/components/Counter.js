@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 
+
+//APP CODE, should be modified or deleted
 class Counter extends Component {
   render() {
-    const { increment, incrementIfOdd, incrementAsync, decrement, counter } = this.props;
+    const { increment, incrementIfOdd, incrementAsync, decrement, state } = this.props;
+    console.log('%cRender ' + this.constructor.displayName + ' component', 'background: #FFF; color: #2aa198 ', 'state', this.state, 'props', this.props);
     return (
       <p>
-        Clicked: {counter} times
+        Clicked: {state.count} times
         {' '}
         <button onClick={increment}>+</button>
         {' '}
@@ -18,13 +21,5 @@ class Counter extends Component {
     );
   }
 }
-
-Counter.propTypes = {
-  increment: PropTypes.func.isRequired,
-  incrementIfOdd: PropTypes.func.isRequired,
-  incrementAsync: PropTypes.func.isRequired,
-  decrement: PropTypes.func.isRequired,
-  counter: PropTypes.number.isRequired
-};
 
 export default Counter;

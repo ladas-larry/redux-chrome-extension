@@ -1,8 +1,10 @@
 import configureStore from '../shared/store/configureStore';
 
 
+var storage = JSON.parse(localStorage.getItem('persistent')) || {options: {initCount: 1}, user:{}};
+var initialStore = {persistent: storage, count: storage.options.initCount};
 
-var initialStore = {counter: 2}; //TODO: remove??
+console.log('initialStore', initialStore);
 
 const store = configureStore(initialStore);
 
@@ -13,12 +15,12 @@ chrome.runtime.onMessage.addListener(
     if (req.action === 'updateState') {
       store.dispatch({
         type: 'UPDATE_STATE',
-        text: req.state
+        state: req.state
       });
     }
     // Passing initial state to Popup Window and Content Scripts
     if (req.action === 'getInitialState') {
-      sendResponse(store.getState()); //store.getState()
+      sendResponse(store.getState());
     }
 
   });
