@@ -67,8 +67,12 @@ You can find .zip packages in the /dist folder.
 ##Data passing
 If you understand the Schema above, you see that not every part of extension talk to each other. 
 That's because of in certain cases it doesn't make sense to notify the part, that would otherwise load the whole state from Background Page again.
+
+
 It's not possible to have Content Script and Popup Window active both in the same time, since Popup Window is autoclosing when it loses focus, and after each invoking it's fetching the state from Background Page. 
-So it doesn't make sense to send any changes from Content Script to Popup Window. Same with Popup Window and Options, it doesn't make sense to send any changes from Options to Popup directly. 
+So it doesn't make sense to send any changes from Content Script to Popup Window. Same with Popup Window and Options.
+
+
 On the other hand Content Script is living behind every tab all the time, so we need to propagate store changes in Popop Window to Content Scripts immediately.
 
 
