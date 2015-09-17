@@ -78,7 +78,7 @@ On the other hand Content Script is living behind every tab all the time, so we 
 
 ##Storage
 All the data we need to keep stored in extension after closing Chrome or disabling Extension are being saved to localStorage.
-You can modify localStorage indirectly by manipulation of `state.persistent` property.
+You can modify localStorage indirectly by changing `state.persistent` property.
 
 
 
