@@ -1,6 +1,6 @@
 {
   "name": "redux-chrome-extension",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "author": "Ladislav Maxa <ladislavmaxa@outlook.com> (https://github.com/Dharmoslap)",
   "license": "ISC",
   "scripts": {
