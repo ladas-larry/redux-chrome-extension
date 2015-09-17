@@ -21,15 +21,14 @@ Uses https://developer.chrome.com/extensions/messaging
 - dispatches state updates to Background Page (and optionally to Content Scripts)
 
 **Content Script**
-- gets global initial state from Background Page
-- receives global state updates from Popup window 
-- dispatches global state updates to Background Page (and optionally to the rest of Content Scripts)
+- gets initial state from Background Page
+- receives state updates from Popup window 
+- dispatches state updates to Background Page (and optionally to the rest of Content Scripts)
 
 
 **Options Page**
-- gets initial global state from Background Page
-- dispatches global state updates to Background Page
-- saves to localStorage via passing persistent object to Background
+- gets initial state from Background Page
+- dispatches state updates to Background Page
 
 *** code for functionality that is in parenthesis was commented out, see src/content.index.js and src/popup/index.js ***
 
