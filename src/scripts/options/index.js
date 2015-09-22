@@ -5,13 +5,12 @@ import Q from 'q';
 document.getElementById('save').addEventListener('click', save_options);
 
 function save_options() {
-  var initalValue = document.getElementById('initalValue').value;
+  var initCount = document.getElementById('initCount').value;
   store.dispatch({
     type: 'UPDATE_STATE',
-    state: {persistent: {initalValue: initalValue}}
+    state: {persistent: {options: {initCount: initCount}}}
   });
 }
-
 
 
 var store = {};
@@ -36,6 +35,11 @@ function getInitialState() {
 
 getInitialState().then(function (initialStore) {
   store = configureStore(initialStore);
+
+  console.log('store.getState()', store.getState().persistent.options.initCount);
+
+  //sync Options DOM with initialStore
+  document.getElementById('initCount').value = store.getState().persistent.options.initCount;
 
   store.subscribe(() => {
       //Dispatching updates to Background Page
