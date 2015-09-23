@@ -1,6 +1,6 @@
 import { INCREMENT_COUNTER, DECREMENT_COUNTER, UPDATE_STATE } from '../actions/chromeExtension.js';
 
-export default function chromeExtension(state = {test:'test', count:1}, action) {
+export default function chromeExtension(state = {test:'test', counter:1}, action) {
   switch (action.type) {
     case UPDATE_STATE:
       console.log('UPDATE_STATE', action.state);
@@ -12,9 +12,9 @@ export default function chromeExtension(state = {test:'test', count:1}, action) 
       return newState;
     //app implementation
     case INCREMENT_COUNTER:
-      return Object.assign({}, state, {count: state.count + 1});
+      return Object.assign({}, state, {counter: state.counter + 1});
     case DECREMENT_COUNTER:
-      return Object.assign({}, state, {count: state.count - 1});
+      return Object.assign({}, state, {counter: state.counter - 1});
     default:
       return state;
   }

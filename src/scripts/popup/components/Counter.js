@@ -8,7 +8,7 @@ class Counter extends Component {
     console.log('%cRender ' + this.constructor.displayName + ' component', 'background: #FFF; color: #2aa198 ', 'state', this.state, 'props', this.props);
     return (
       <p>
-        Clicked: {state.count} times
+        Clicked: {state.counter} times
         {' '}
         <button onClick={increment}>+</button>
         {' '}

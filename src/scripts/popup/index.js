@@ -7,16 +7,6 @@ import Q from 'q';
 
 var store = {};
 
-class Root extends Component {
-  render() {
-    console.log('%cRender ' + this.constructor.displayName + ' component', 'background: #FFF; color: #2aa198 ', 'state', this.state, 'props', this.props);
-    return (
-      <Provider store={this.props.store}>
-        {() => <CounterApp />}
-      </Provider>
-    );
-  }
-}
 
 //Get initial store from Background Page
 function getInitialState() {
@@ -53,7 +43,9 @@ getInitialState().then(function (initialStore) {
     }
   );
   React.render(
-    <Root store={store}/>,
+    <Provider store={store}>
+      {() => <CounterApp />}
+    </Provider>,
     document.getElementById('root')
   );
 });
