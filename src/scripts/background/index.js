@@ -2,7 +2,7 @@ import configureStore from '../shared/store/configureStore';
 
 
 var storage = JSON.parse(localStorage.getItem('persistent')) || {options: {initCount: 1}, user:{}};
-var initialStore = {persistent: storage, count: storage.options.initCount};
+var initialStore = {persistent: storage, counter: storage.options.initCount};
 
 console.log('initialStore', initialStore);
 
