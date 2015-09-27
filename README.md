@@ -4,11 +4,13 @@
 A starter boilerplate for a Chrome Extension using Redux and React.js.
 It handles store syncing throughout the whole Extension.
 Uses React for Popup window UI. Console.log in every part of extensions for better debugging.
+Implemets Redux Counter example (https://github.com/rackt/redux/tree/master/examples/counter).
+
 
 
 ##Schema
 
-Uses https://developer.chrome.com/extensions/messaging
+Uses (https://developer.chrome.com/extensions/messaging)
 
 **Background Page**
 - gets persistent data for initial state from localStorage (options, user)
