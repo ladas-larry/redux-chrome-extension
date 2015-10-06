@@ -8,9 +8,9 @@ module.exports = {
     './src/scripts/popup/index'
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: 'http://localhost:3000/static/'
+    //path: path.join(__dirname, 'dist'),
+    filename: 'popup_bundle.js',
+    publicPath: 'http://localhost:3000/scripts/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

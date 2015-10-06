@@ -26,6 +26,7 @@ gulp.task('clean', function (cb) {
 });
 
 
+//TODO: edit paths via gulp replace
 //build distributable
 gulp.task('release', function () {
   var manifest = require('./app/manifest'),
@@ -36,6 +37,7 @@ gulp.task('release', function () {
 });
 
 
+//
 function bundle(inputFile, outputDir, outputFile) {
   var options = {};
   for (var opt in watchify.args) {

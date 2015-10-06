@@ -13,6 +13,11 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
+if (process.env.NODE_ENV === "development") {
+
+}
+
+
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
