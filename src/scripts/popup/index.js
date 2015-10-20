@@ -1,31 +1,28 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import CounterApp from './containers/CounterApp';
+import createContainer from '../shared/containers/createContainer';
 import configureStore from '../shared/store/configureStore';
-import Q from 'q';
+import getState from '../shared/getState';
+import Popup from './components/Popup';
 
+
+var CounterPopup = createContainer(Popup);
 
 var store = {};
 
-
-//Get initial store from Background Page
-function getInitialState() {
-  var result = Q.defer();
-  chrome.runtime.sendMessage({
-    action: 'getInitialState'
-  }, function (res) {
-    console.log('getInitialState', res);
-    if (res) {
-      result.resolve(res);
-    } else {
-      result.reject(new Error('Cannot reach Background Page'));
-    }
-  });
-  return result.promise;
-}
-
-getInitialState().then(function (initialStore) {
+getState().then(function (initialStore) {
   store = configureStore(initialStore);
+
+  /*
+  todo: hot reload reducers (https://github.com/rackt/react-redux/releases/tag/v2.0.0)
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('../shared/reducers/chromeExtension.js', () => {
+      const nextRootReducer = require('../shared/reducers/chromeExtension');
+      store.replaceReducer(nextRootReducer);
+    });
+  }*/
 
   store.subscribe(() => {
       let message = {
@@ -42,10 +39,14 @@ getInitialState().then(function (initialStore) {
       });
     }
   );
-  React.render(
+
+  ReactDOM.render(
     <Provider store={store}>
-      {() => <CounterApp />}
+      <CounterPopup/>
     </Provider>,
-    document.getElementById('root')
+    document.getElementById('root'), function(){
+      console.log('ahoj');
+    }
   );
+
 });
