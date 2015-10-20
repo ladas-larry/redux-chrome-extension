@@ -9,8 +9,7 @@
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:gulp": "gulp release",
     "build": "npm run clean && npm run build:webpack && npm run build:gulp",
-    "start": "node devServer.js",
-    "lint": "eslint src"
+    "start": "gulp & node devServer.js"
   },
   "repository": {
     "type": "git",
