@@ -1,7 +1,7 @@
 import configureStore from '../shared/store/configureStore';
 
 
-var storage = JSON.parse(localStorage.getItem('persistent')) || {options: {initCount: 1}, user:{}};
+var storage = JSON.parse(localStorage.getItem('persistent')) || {options: {initCount: 1}};
 var initialStore = {persistent: storage, counter: storage.options.initCount};
 
 console.log('initialStore', initialStore);
@@ -19,10 +19,8 @@ chrome.runtime.onMessage.addListener(
       });
     }
     // Passing initial state to Popup Window and Content Scripts
-    if (req.action === 'getInitialState') {
+    if (req.action === 'getState') {
       sendResponse(store.getState());
     }
 
   });
-
-

@@ -1,26 +1,9 @@
 import configureStore from '../shared/store/configureStore';
-import Q from 'q';
+import getState from '../shared/getState';
 
 var store = {};
 
-
-//Get initial store from Background Page
-function getInitialState() {
-  var result = Q.defer();
-  chrome.runtime.sendMessage({
-    action: 'getInitialState'
-  }, function (res) {
-    console.log('getInitialState', res);
-    if (res) {
-      result.resolve(res);
-    } else {
-      result.reject(new Error('Cannot reach Background Page'));
-    }
-  });
-  return result.promise;
-}
-
-getInitialState().then(function (initialStore) {
+getState().then(function (initialStore) {
   store = configureStore(initialStore);
 
   store.subscribe(() => {
