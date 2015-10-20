@@ -7,6 +7,15 @@ Uses React for Popup window UI. Console.log in every part of extensions for bett
 Implemets Redux Counter example (https://github.com/rackt/redux/tree/master/examples/counter).
 
 
+## Installation
+
+`npm i`
+
+## Development
+
+
+`npm start`
+
 
 ##Schema
 
@@ -34,23 +43,6 @@ Uses (https://developer.chrome.com/extensions/messaging)
 
 *** code for functionality that is in parenthesis was commented out, see src/content.index.js and src/popup/index.js ***
 
-## Installation
-
-`npm i`
-
-## Development
-
-
-`gulp`
-
-Browserify and Watchify are used for building scripts. For more details see: (https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md)
-
-
-
-1. In Chrome open chrome://extensions/
-2. Select Developer mode
-3. Click on Load unpacked extension
-4. Add /dist folder
 
 ## Example App
 - There is an example counter application 
@@ -85,12 +77,9 @@ You can modify localStorage indirectly by changing `state.persistent` property, 
 
 
 
-
 ##TODO
 
-- Replace browserify with webpack
-
-- Hot loading
+- Hot loading od Reducers
 
 - Testing 
 
