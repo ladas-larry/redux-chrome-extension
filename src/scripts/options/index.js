@@ -1,45 +1,21 @@
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import createContainer from '../shared/containers/createContainer';
 import configureStore from '../shared/store/configureStore';
-import Q from 'q';
+import getState from '../shared/getState';
+import Options from './components/Options';
 
 
-document.getElementById('save').addEventListener('click', save_options);
+//import testContainer from './containers/CounterOptions';
 
-function save_options() {
-  var initCount = document.getElementById('initCount').value;
-  store.dispatch({
-    type: 'UPDATE_STATE',
-    state: {persistent: {options: {initCount: initCount}}}
-  });
-}
-
+var CounterOptions = createContainer(Options);
 
 var store = {};
 
-//Get initial store from Background Page
-function getInitialState() {
-  var result = Q.defer();
-  chrome.runtime.sendMessage({
-    action: 'getInitialState'
-  }, function (res) {
-    console.log('getInitialState', res);
-    if (res) {
-      result.resolve(res);
-    } else {
-      result.reject(new Error('Cannot reach Background Page'));
-    }
-  });
-  return result.promise;
-}
-
-//try to save to local storage
-
-getInitialState().then(function (initialStore) {
+getState().then(function (initialStore) {
+  //console.log(testContainer);
   store = configureStore(initialStore);
-
-  console.log('store.getState()', store.getState().persistent.options.initCount);
-
-  //sync Options DOM with initialStore
-  document.getElementById('initCount').value = store.getState().persistent.options.initCount;
 
   store.subscribe(() => {
       //Dispatching updates to Background Page
@@ -58,7 +34,18 @@ getInitialState().then(function (initialStore) {
       });
     }
   );
+
+  ReactDOM.render(
+    <Provider store={store}>
+      <CounterOptions/>
+    </Provider>,
+    document.getElementById('root'), function(){
+      console.log('ahoj1');
+    }
+  );
+
 });
+
 
 
 
