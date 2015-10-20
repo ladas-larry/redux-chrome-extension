@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 
-//APP CODE, should be modified or deleted
 class Counter extends Component {
   render() {
     const { increment, incrementIfOdd, incrementAsync, decrement, state } = this.props;

@@ -11,7 +11,7 @@
   "background": {
     "scripts": [
       "scripts/chromereload.js",
-      "scripts/background.js"
+      "scripts/background_bundle.js"
     ]
   },
    "browser_action": {
@@ -33,7 +33,7 @@
         "https://*/*"
       ],
       "js": [
-        "scripts/content.js"
+        "/scripts/content_bundle.js"
       ],
       "run_at": "document_end",
       "all_frames": false

@@ -2,14 +2,14 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  devtool: 'source-map',
-  entry: [
-    './src/index'
-  ],
+  entry: {
+    popup: "./src/scripts/popup.js",
+    options: "./src/scripts/options.js"
+  },
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    path: path.join(__dirname, 'dist/app/scripts'),
+    filename: "[name]_bundle.js",
+    //publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

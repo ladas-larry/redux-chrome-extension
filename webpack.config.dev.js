@@ -3,13 +3,13 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
-  entry: [
-    'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr',
-    './src/scripts/popup/index'
-  ],
+  entry: {
+    popup: ["./src/scripts/popup.js", "webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr"],
+    options: ["./src/scripts/options.js", "webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr"]
+  },
   output: {
-    //path: path.join(__dirname, 'dist'),
-    filename: 'popup_bundle.js',
+    path: path.join(__dirname, '.tmp'),
+    filename: "[name]_bundle.js",
     publicPath: 'http://localhost:3000/scripts/'
   },
   plugins: [

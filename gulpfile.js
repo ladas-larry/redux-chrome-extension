@@ -37,7 +37,7 @@ gulp.task('contentWatch', function() {
 });
 
 gulp.task('contentProd', function() {
-  gulp.src('src/scripts/content.js')
+  gulp.src('src/scripts/content_bundle.js')
     .pipe(browserify())
     .pipe(gulp.dest('dist/app'))
 });
