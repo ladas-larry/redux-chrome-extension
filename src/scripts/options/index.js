@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import createContainer from '../shared/containers/createContainer';
 import configureStore from '../shared/store/configureStore';
-import getState from '../shared/getState';
+import getState from '../shared/helpers/getState';
 import Options from './components/Options';
 
 

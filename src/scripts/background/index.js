@@ -1,12 +1,11 @@
 import configureStore from '../shared/store/configureStore';
+import initStorage from '../shared/initStorage'
+import createInitState from '../shared/helpers/createInitState';
 
+var storage = JSON.parse(localStorage.getItem('persistent')) || initStorage;
+var initialState = createInitState(storage);
 
-var storage = JSON.parse(localStorage.getItem('persistent')) || {options: {initCount: 1}};
-var initialStore = {persistent: storage, counter: storage.options.initCount};
-
-console.log('initialStore', initialStore);
-
-const store = configureStore(initialStore);
+const store = configureStore(initialState);
 
 chrome.runtime.onMessage.addListener(
   function (req, sender, sendResponse) {

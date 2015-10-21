@@ -1,5 +1,5 @@
 import configureStore from '../shared/store/configureStore';
-import getState from '../shared/getState';
+import getState from '../shared/helpers/getState';
 
 var store = {};
 
