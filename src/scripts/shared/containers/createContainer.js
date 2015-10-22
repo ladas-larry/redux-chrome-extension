@@ -1,9 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-//APP CODE, should be modified
-//import Popup from '../components/Popup';
-import * as CounterActions from '../../shared/actions/chromeExtension';
+
+import * as Actions from '../actions/chromeExtension';
 
 function mapStateToProps(state) {
   return {
@@ -12,7 +11,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(CounterActions, dispatch);
+  return bindActionCreators(Actions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps);
