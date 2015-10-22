@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import createContainer from '../shared/containers/createContainer';
 import configureStore from '../shared/store/configureStore';
 import getState from '../shared/helpers/getState';
-import Options from './components/Options';
+import Options from './components/Options.jsx';
 
 
 //import testContainer from './containers/CounterOptions';

@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 import createContainer from '../shared/containers/createContainer';
 import configureStore from '../shared/store/configureStore';
 import getState from '../shared/helpers/getState';
-import Popup from './components/Popup';
+import Popup from './components/Popup.jsx';
 
-document.getElementById('heading-version').innerHTML = chrome.app.getDetails().version;
+//document.getElementById('heading-version').innerHTML = chrome.app.getDetails().version;
 
 var CounterPopup = createContainer(Popup);
 
