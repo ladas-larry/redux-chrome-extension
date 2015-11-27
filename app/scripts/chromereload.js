@@ -13,10 +13,13 @@ connection.onerror = function (error) {
 };
 
 connection.onmessage = function (e) {
-  if (e.data) {
+  console.log('RELOAD!');
+  console.dir(e);
+  chrome.runtime.reload();
+ /*if (e.data) {
     var data = JSON.parse(e.data);
     if (data && data.command === 'reload') {
       chrome.runtime.reload();
     }
-  }
+  }*/
 };

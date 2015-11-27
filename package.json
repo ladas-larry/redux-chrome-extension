@@ -24,9 +24,12 @@
     "redux-thunk": "^1.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.1.21",
+    "babel-core": "^6.2.0",
     "babel-loader": "^6.2.0",
     "babel-plugin-react-transform": "^1.1.1",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-0": "^6.1.18",
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "del": "^2.1.0",

@@ -7,6 +7,8 @@ Uses React for Popup window UI. Console.log in every part of extensions for bett
 Implemets Redux Counter example (https://github.com/rackt/redux/tree/master/examples/counter).
 
 
+https://developer.chrome.com/extensions/getstarted#unpacked
+
 ## Installation
 
 `npm i`
@@ -16,6 +18,29 @@ Implemets Redux Counter example (https://github.com/rackt/redux/tree/master/exam
 
 `npm start`
 
+
+
+1. gulp
+2. chrome skrze chrome reload 
+- pokud vypnu gulp a spustím jej znovu, musím to vše celé dodatečně restastovat manuálně
+
+
+
+Redux is perfect, becouse you can run it even it 
+
+
+Browserify and Watchify are used for building scripts and it's blazing fast. For more details see: (https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md)
+- after running, please Reload just once manually to establish the connection for livereload
+
+
+1. In Chrome open chrome://extensions/
+2. Select Developer mode
+3. Click on Load unpacked extension
+4. Add /dist folder
+
+
+- You can gen more info by reading comments /src/files
+- There is also distinction between which code belong to example a which code is React/Redux itself
 
 ##Schema
 
@@ -79,8 +104,11 @@ You can modify localStorage indirectly by changing `state.persistent` property, 
 
 ##TODO
 
-- Hot loading od Reducers
+- Hot loading of Reducers
 
 - Testing 
 
+- Cosmos
+
 - Issues and pull requests are always welcome!!
+

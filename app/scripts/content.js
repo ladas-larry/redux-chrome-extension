@@ -2706,7 +2706,7 @@ module.exports = exports["default"];
 
 require('./content/index');
 
-console.log('Greetings from Content Script!');
+console.log('Greetings from Content Script!!');
 
 },{"./content/index":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/content/index.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/content/index.js":[function(require,module,exports){
 'use strict';

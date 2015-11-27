@@ -654,7 +654,7 @@ module.exports = exports["default"];
 
 require('./background/index');
 
-console.log('Greetings from Backgroud Page');
+console.log('Greetings from Backgroud Page!');
 
 },{"./background/index":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/background/index.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/background/index.js":[function(require,module,exports){
 'use strict';
