@@ -19,16 +19,6 @@ https://developer.chrome.com/extensions/getstarted#unpacked
 `npm start`
 
 
-
-1. gulp
-2. chrome skrze chrome reload 
-- pokud vypnu gulp a spustím jej znovu, musím to vše celé dodatečně restastovat manuálně
-
-
-
-Redux is perfect, becouse you can run it even it 
-
-
 Browserify and Watchify are used for building scripts and it's blazing fast. For more details see: (https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md)
 - after running, please Reload just once manually to establish the connection for livereload
 
@@ -112,3 +102,7 @@ You can modify localStorage indirectly by changing `state.persistent` property, 
 
 - Issues and pull requests are always welcome!!
 
+
+Thanks to 
+
+https://github.com/schovi/webpack-chrome-extension
