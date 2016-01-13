@@ -18,10 +18,9 @@ if (process.env.NODE_ENV === "development") {
 }
 
 
-//TODO: get rid of unexisting index, it just breaks stuff
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+/*app.get('*', function(req, res) {
+  res.send('void');
+});*/
 
 app.listen(3000, 'localhost', function(err) {
   if (err) {
