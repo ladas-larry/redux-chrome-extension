@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import createContainer from '../shared/containers/createContainer';
 import configureStore from '../shared/store/configureStore';
 import getState from '../shared/helpers/getState';
-import Popup from './components/Popup.jsx';
+import Popup from './components/Popup';
 
 //document.getElementById('heading-version').innerHTML = chrome.app.getDetails().version;
 

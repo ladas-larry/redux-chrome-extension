@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var source = require('vinyl-source-stream'); // Used to stream bundle for further handling
+var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var babelify = require('babelify');
@@ -8,13 +9,16 @@ var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
 var replace = require('gulp-replace');
 var jeditor = require("gulp-json-editor");
+var zip = require('gulp-zip');
 
-livereload.listen();
 
+gulp.task('livereload', () => {
+  livereload.listen();
+})
 
 //CONTENT SCRIPT
 
-gulp.task('contentWatch', function() {
+gulp.task('contentWatch', ['livereload'], function() {
   var bundler = browserify({
     entries: ['src/scripts/content.js'], // Only need initial file, browserify finds the deps
     transform: [babelify],
@@ -26,7 +30,8 @@ gulp.task('contentWatch', function() {
       var updateStart = Date.now();
       console.log('Updating Content script...');
       watcher.bundle() // Create new bundle that uses the cache for high performance
-        .pipe(source('content.js'))
+        // .pipe(source('content.js'))
+        .pipe(source('content_bundle.js'))
         .pipe(gulp.dest('app/scripts'))
         .pipe(livereload());
         console.log('Content script updated!', (Date.now() - updateStart) + 'ms');
@@ -37,14 +42,20 @@ gulp.task('contentWatch', function() {
 });
 
 gulp.task('contentProd', function() {
-  gulp.src('src/scripts/content_bundle.js')
-    .pipe(browserify())
-    .pipe(gulp.dest('dist/app'))
+  return browserify({
+    entries: ['src/scripts/content.js'], // Only need initial file, browserify finds the deps
+    transform: [babelify]
+  })
+  .bundle()
+  .pipe(source('content_bundle.js'))
+  .pipe(buffer())
+  .pipe(uglify())
+  .pipe(gulp.dest('dist/app/scripts'))
 });
 
 //BACKGROUND PAGE
 
-gulp.task('backgroundWatch', function() {
+gulp.task('backgroundWatch', ['livereload'], function() {
   var bundler = browserify({
     entries: ['src/scripts/background.js'], // Only need initial file, browserify finds the deps
     transform: [babelify],
@@ -56,7 +67,8 @@ gulp.task('backgroundWatch', function() {
       var updateStart = Date.now();
       console.log('Updating Background page...');
       watcher.bundle() // Create new bundle that uses the cache for high performance
-        .pipe(source('background.js'))
+        // .pipe(source('background.js'))
+        .pipe(source('background_bundle.js'))
         .pipe(gulp.dest('app/scripts'))
         .pipe(livereload());
       console.log('Background page updated!', (Date.now() - updateStart) + 'ms');
@@ -67,46 +79,61 @@ gulp.task('backgroundWatch', function() {
 });
 
 gulp.task('backgroundProd', function() {
-  gulp.src('src/scripts/background.js')
-    .pipe(browserify())
-    .pipe(uglify())
-    .pipe(source('background_bundle.js'))
-    .pipe(gulp.dest('dist/app'))
+  return browserify({
+    entries: ['src/scripts/background.js'], // Only need initial file, browserify finds the deps
+    transform: [babelify]
+  })
+  .bundle()
+  .pipe(source('background_bundle.js'))
+  .pipe(buffer())
+  .pipe(uglify())
+  .pipe(gulp.dest('dist/app/scripts'))
 });
 
 //TODO: build BG and CS scripts for release
 
+gulp.task('assets', () => {
+  const locales = gulp.src('app/_locales/**')
+    .pipe(gulp.dest('dist/app/_locales/'));
 
-gulp.src('app/_locales/**')
-  .pipe(gulp.dest('dist/app/_locales/'));
+  const images = gulp.src('app/images/**')
+    .pipe(gulp.dest('dist/app/images/'));
 
-gulp.src('app/images/**')
-  .pipe(gulp.dest('dist/app/images/'));
+  const scripts = gulp.src(['app/scripts/ddp.js', 'app/scripts/q.js'])
+    .pipe(gulp.dest('dist/app/scripts'))
 
-gulp.src('app/manifest.json')
-  .pipe(jeditor({
-    'content_security_policy': "script-src 'self'; object-src 'self'"
-  }))
-  .pipe(gulp.dest('dist/app/'));
+  return merge(locales, images, scripts)
+})
+
+gulp.task('manifest', () => {
+  return gulp.src('app/manifest.json')
+    .pipe(jeditor( json => {
+      return Object.assign({}, json, {
+        "background": {
+          "scripts": [ "scripts/background_bundle.js" ]
+        },
+        "content_security_policy": "script-src 'self'; object-src 'self'"
+      })
+    }))
+    .pipe(gulp.dest('dist/app/'));
+})
 
 //RELEASING
 
 
-gulp.task('inject-prod-scripts', function(){
+gulp.task('inject-prod-scripts', ['contentProd', 'backgroundProd'], function(){
   var popup = gulp.src('app/popup.html')
     .pipe(replace('http://localhost:3000/scripts/popup_bundle.js', 'scripts/popup_bundle.js'))
     .pipe(gulp.dest('dist/app'));
   var options = gulp.src('app/options.html')
     .pipe(replace('http://localhost:3000/scripts/options_bundle.js', 'scripts/options_bundle.js'))
     .pipe(gulp.dest('dist/app'));
-  return merge(popup, options).once('end', function () {
-    process.exit();
-  });
+  return merge(popup, options);
 });
 
 
-gulp.task('release', ['inject-prod-scripts'], function (){
-  var manifest = require('app/manifest'),
+gulp.task('release', ['inject-prod-scripts', 'assets', 'manifest'], function (){
+  var manifest = require('./app/manifest.json'),
     distFileName = manifest.name + ' v' + manifest.version + '.zip';
   return gulp.src('dist/app/**')
     .pipe(zip(distFileName))
