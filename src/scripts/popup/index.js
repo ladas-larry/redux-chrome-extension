@@ -5,10 +5,14 @@ import createContainer from '../shared/containers/createContainer';
 import configureStore from '../shared/store/configureStore';
 import getState from '../shared/helpers/getState';
 import Popup from './components/Popup.jsx';
-
+import { AppContainer } from 'react-hot-loader';
 //document.getElementById('heading-version').innerHTML = chrome.app.getDetails().version;
 
 var CounterPopup = createContainer(Popup);
+
+/*,
+
+*/
 
 var store = {};
 
@@ -42,10 +46,22 @@ getState().then(function (initialStore) {
   );
 
   ReactDOM.render(
-    <Provider store={store}>
-      <CounterPopup/>
-    </Provider>,
-    document.getElementById('root')
+    <AppContainer
+      component={CounterPopup}
+      props={{ store }}/>,
+    document.getElementById('CounterPopup')
   );
 
+if (module.hot) {
+  module.hot.accept('./containers/CounterPopup', () => {
+   render(
+       <AppContainer
+         component={require('./containers/CounterPopup').default}
+         props={{ store }}
+       />,
+       document.getElementById('root')
+     );
+   });
+ }
+   
 });
