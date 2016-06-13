@@ -2146,9 +2146,6 @@ return Q;
 },{"_process":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/browserify/node_modules/process/browser.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux-thunk/lib/index.js":[function(require,module,exports){
 'use strict';
 
-exports.__esModule = true;
-exports['default'] = thunkMiddleware;
-
 function thunkMiddleware(_ref) {
   var dispatch = _ref.dispatch;
   var getState = _ref.getState;
@@ -2160,7 +2157,7 @@ function thunkMiddleware(_ref) {
   };
 }
 
-module.exports = exports['default'];
+module.exports = thunkMiddleware;
 },{}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/createStore.js":[function(require,module,exports){
 'use strict';
 
@@ -2234,8 +2231,14 @@ function createStore(reducer, initialState) {
    */
   function subscribe(listener) {
     listeners.push(listener);
+    var isSubscribed = true;
 
     return function unsubscribe() {
+      if (!isSubscribed) {
+        return;
+      }
+
+      isSubscribed = false;
       var index = listeners.indexOf(listener);
       listeners.splice(index, 1);
     };
@@ -2421,9 +2424,9 @@ exports['default'] = bindActionCreators;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _utilsMapValues = require('../utils/mapValues');
+var _mapValues = require('./mapValues');
 
-var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
+var _mapValues2 = _interopRequireDefault(_mapValues);
 
 function bindActionCreator(actionCreator, dispatch) {
   return function () {
@@ -2459,17 +2462,16 @@ function bindActionCreators(actionCreators, dispatch) {
   }
 
   if (typeof actionCreators !== 'object' || actionCreators === null || actionCreators === undefined) {
-    // eslint-disable-line no-eq-null
     throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
   }
 
-  return _utilsMapValues2['default'](actionCreators, function (actionCreator) {
+  return _mapValues2['default'](actionCreators, function (actionCreator) {
     return bindActionCreator(actionCreator, dispatch);
   });
 }
 
 module.exports = exports['default'];
-},{"../utils/mapValues":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/mapValues.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/combineReducers.js":[function(require,module,exports){
+},{"./mapValues":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/mapValues.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/combineReducers.js":[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -2480,17 +2482,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var _createStore = require('../createStore');
 
-var _utilsIsPlainObject = require('../utils/isPlainObject');
+var _isPlainObject = require('./isPlainObject');
 
-var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
+var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _utilsMapValues = require('../utils/mapValues');
+var _mapValues = require('./mapValues');
 
-var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
+var _mapValues2 = _interopRequireDefault(_mapValues);
 
-var _utilsPick = require('../utils/pick');
+var _pick = require('./pick');
 
-var _utilsPick2 = _interopRequireDefault(_utilsPick);
+var _pick2 = _interopRequireDefault(_pick);
 
 /* eslint-disable no-console */
 
@@ -2509,7 +2511,7 @@ function getUnexpectedStateKeyWarningMessage(inputState, outputState, action) {
     return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
   }
 
-  if (!_utilsIsPlainObject2['default'](inputState)) {
+  if (!_isPlainObject2['default'](inputState)) {
     return 'The ' + argumentName + ' has unexpected type of "' + ({}).toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
   }
 
@@ -2556,7 +2558,7 @@ function assertReducerSanity(reducers) {
  */
 
 function combineReducers(reducers) {
-  var finalReducers = _utilsPick2['default'](reducers, function (val) {
+  var finalReducers = _pick2['default'](reducers, function (val) {
     return typeof val === 'function';
   });
   var sanityError;
@@ -2567,7 +2569,7 @@ function combineReducers(reducers) {
     sanityError = e;
   }
 
-  var defaultState = _utilsMapValues2['default'](finalReducers, function () {
+  var defaultState = _mapValues2['default'](finalReducers, function () {
     return undefined;
   });
 
@@ -2578,13 +2580,16 @@ function combineReducers(reducers) {
       throw sanityError;
     }
 
-    var finalState = _utilsMapValues2['default'](finalReducers, function (reducer, key) {
-      var newState = reducer(state[key], action);
-      if (typeof newState === 'undefined') {
+    var hasChanged = false;
+    var finalState = _mapValues2['default'](finalReducers, function (reducer, key) {
+      var previousStateForKey = state[key];
+      var nextStateForKey = reducer(previousStateForKey, action);
+      if (typeof nextStateForKey === 'undefined') {
         var errorMessage = getUndefinedStateErrorMessage(key, action);
         throw new Error(errorMessage);
       }
-      return newState;
+      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+      return nextStateForKey;
     });
 
     if (process.env.NODE_ENV !== 'production') {
@@ -2594,13 +2599,13 @@ function combineReducers(reducers) {
       }
     }
 
-    return finalState;
+    return hasChanged ? finalState : state;
   };
 }
 
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"../createStore":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/createStore.js","../utils/isPlainObject":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/isPlainObject.js","../utils/mapValues":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/mapValues.js","../utils/pick":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/pick.js","_process":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/browserify/node_modules/process/browser.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/compose.js":[function(require,module,exports){
+},{"../createStore":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/createStore.js","./isPlainObject":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/isPlainObject.js","./mapValues":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/mapValues.js","./pick":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/pick.js","_process":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/browserify/node_modules/process/browser.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/utils/compose.js":[function(require,module,exports){
 /**
  * Composes single-argument functions from right to left.
  *
@@ -2634,6 +2639,7 @@ exports['default'] = isPlainObject;
 var fnToString = function fnToString(fn) {
   return Function.prototype.toString.call(fn);
 };
+var objStringValue = fnToString(Object);
 
 /**
  * @param {any} obj The object to inspect.
@@ -2653,7 +2659,7 @@ function isPlainObject(obj) {
 
   var constructor = proto.constructor;
 
-  return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === fnToString(Object);
+  return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === objStringValue;
 }
 
 module.exports = exports['default'];
@@ -2706,25 +2712,25 @@ module.exports = exports["default"];
 
 require('./content/index');
 
-console.log('Greetings from Content Script!');
+console.log('Greetings from Content Script');
 
 },{"./content/index":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/content/index.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/content/index.js":[function(require,module,exports){
 'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _configureStore = require('../shared/store/configureStore');
 
-var _sharedStoreConfigureStore = require('../shared/store/configureStore');
+var _configureStore2 = _interopRequireDefault(_configureStore);
 
-var _sharedStoreConfigureStore2 = _interopRequireDefault(_sharedStoreConfigureStore);
+var _getState = require('../shared/helpers/getState');
 
-var _sharedHelpersGetState = require('../shared/helpers/getState');
+var _getState2 = _interopRequireDefault(_getState);
 
-var _sharedHelpersGetState2 = _interopRequireDefault(_sharedHelpersGetState);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var store = {};
 
-(0, _sharedHelpersGetState2['default'])().then(function (initialStore) {
-  store = (0, _sharedStoreConfigureStore2['default'])(initialStore);
+(0, _getState2.default)().then(function (initialStore) {
+  store = (0, _configureStore2.default)(initialStore);
 
   store.subscribe(function () {
     var message = {
@@ -2756,7 +2762,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
 },{"../shared/helpers/getState":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/helpers/getState.js","../shared/store/configureStore":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/store/configureStore.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/actions/chromeExtension.js":[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.updateState = updateState;
@@ -2765,11 +2771,8 @@ exports.increment = increment;
 exports.decrement = decrement;
 exports.incrementIfOdd = incrementIfOdd;
 exports.incrementAsync = incrementAsync;
-var UPDATE_STATE = 'UPDATE_STATE';
-exports.UPDATE_STATE = UPDATE_STATE;
-var SET_OPTIONS = 'SET_OPTIONS';
-
-exports.SET_OPTIONS = SET_OPTIONS;
+var UPDATE_STATE = exports.UPDATE_STATE = 'UPDATE_STATE';
+var SET_OPTIONS = exports.SET_OPTIONS = 'SET_OPTIONS';
 
 function updateState() {
   return {
@@ -2786,11 +2789,8 @@ function setOptions(options) {
 
 //Counter example
 
-var INCREMENT_COUNTER = 'INCREMENT_COUNTER';
-exports.INCREMENT_COUNTER = INCREMENT_COUNTER;
-var DECREMENT_COUNTER = 'DECREMENT_COUNTER';
-
-exports.DECREMENT_COUNTER = DECREMENT_COUNTER;
+var INCREMENT_COUNTER = exports.INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+var DECREMENT_COUNTER = exports.DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 
 function increment() {
   return {
@@ -2834,8 +2834,7 @@ function incrementAsync() {
 Object.defineProperty(exports, "__esModule", {
           value: true
 });
-exports["default"] = createInitState;
-
+exports.default = createInitState;
 function createInitState(storage) {
           return {
                     persistent: storage,
@@ -2843,17 +2842,13 @@ function createInitState(storage) {
           };
 }
 
-module.exports = exports["default"];
-
 },{}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/helpers/getState.js":[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = getState;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+exports.default = getState;
 
 var _q = require('q');
 
@@ -2867,10 +2862,12 @@ var _createInitState = require('./createInitState');
 
 var _createInitState2 = _interopRequireDefault(_createInitState);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 //Get store from Background Page
 
 function getState() {
-  var result = _q2['default'].defer();
+  var result = _q2.default.defer();
   if (window.chrome && chrome.runtime && chrome.runtime.id) {
     chrome.runtime.sendMessage({
       action: 'getState'
@@ -2884,14 +2881,12 @@ function getState() {
     });
   } else {
     //MOCK
-    var deferred = _q2['default'].defer();
-    deferred.resolve((0, _createInitState2['default'])(_initStorage2['default']));
+    var deferred = _q2.default.defer();
+    deferred.resolve((0, _createInitState2.default)(_initStorage2.default));
     return deferred.promise;
   }
   return result.promise;
 }
-
-module.exports = exports['default'];
 
 },{"../initStorage":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/initStorage.js","./createInitState":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/helpers/createInitState.js","q":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/q/q.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/initStorage.js":[function(require,module,exports){
 "use strict";
@@ -2899,26 +2894,26 @@ module.exports = exports['default'];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = {
+exports.default = {
   options: { initCount: 1 }
 };
-module.exports = exports["default"];
 
 },{}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/reducers/chromeExtension.js":[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = chromeExtension;
+exports.default = chromeExtension;
 
-var _actionsChromeExtensionJs = require('../actions/chromeExtension.js');
+var _chromeExtension = require('../actions/chromeExtension.js');
 
-function chromeExtension(state, action) {
-  if (state === undefined) state = { counter: 0, persistent: { options: { initCount: 1 } } };
+function chromeExtension() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? { counter: 0, persistent: { options: { initCount: 1 } } } : arguments[0];
+  var action = arguments[1];
 
   switch (action.type) {
-    case _actionsChromeExtensionJs.UPDATE_STATE:
+    case _chromeExtension.UPDATE_STATE:
       console.log('UPDATE_STATE', action.state);
       var newState = Object.assign({}, state, action.state);
       //conditions to update localStorage only inside backround page
@@ -2926,29 +2921,25 @@ function chromeExtension(state, action) {
         localStorage.setItem('persistent', JSON.stringify(newState.persistent));
       }
       return newState;
-    case _actionsChromeExtensionJs.SET_OPTIONS:
+    case _chromeExtension.SET_OPTIONS:
       return Object.assign({}, state, { persistent: { options: action.options } });
     //Counter example
-    case _actionsChromeExtensionJs.INCREMENT_COUNTER:
+    case _chromeExtension.INCREMENT_COUNTER:
       return Object.assign({}, state, { counter: state.counter + 1 });
-    case _actionsChromeExtensionJs.DECREMENT_COUNTER:
+    case _chromeExtension.DECREMENT_COUNTER:
       return Object.assign({}, state, { counter: state.counter - 1 });
     default:
       return state;
   }
 }
 
-module.exports = exports['default'];
-
 },{"../actions/chromeExtension.js":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/actions/chromeExtension.js"}],"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/store/configureStore.js":[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = configureStore;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+exports.default = configureStore;
 
 var _redux = require('redux');
 
@@ -2956,16 +2947,16 @@ var _reduxThunk = require('redux-thunk');
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reducersChromeExtension = require('../reducers/chromeExtension');
+var _chromeExtension = require('../reducers/chromeExtension');
 
-var _reducersChromeExtension2 = _interopRequireDefault(_reducersChromeExtension);
+var _chromeExtension2 = _interopRequireDefault(_chromeExtension);
 
-var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2['default'])(_redux.createStore);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 
 function configureStore(initialState) {
-  return createStoreWithMiddleware(_reducersChromeExtension2['default'], initialState);
+  return createStoreWithMiddleware(_chromeExtension2.default, initialState);
 }
-
-module.exports = exports['default'];
 
 },{"../reducers/chromeExtension":"/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/shared/reducers/chromeExtension.js","redux":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux/lib/index.js","redux-thunk":"/Volumes/Workspace/Github/repos/redux-chrome-extension/node_modules/redux-thunk/lib/index.js"}]},{},["/Volumes/Workspace/Github/repos/redux-chrome-extension/src/scripts/content.js"]);
