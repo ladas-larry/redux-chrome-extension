@@ -1,5 +1,7 @@
 #Redux Chrome Extension
 
+**work in progress**
+
 
 A starter boilerplate for a Chrome Extension using Redux and React.js.
 It handles store syncing throughout the whole Extension.
@@ -97,8 +99,6 @@ You can modify localStorage indirectly by changing `state.persistent` property, 
 - Hot loading of Reducers
 
 - Testing 
-
-- Cosmos
 
 - Issues and pull requests are always welcome!!
 
