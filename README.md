@@ -1,4 +1,4 @@
-#Redux Chrome Extension
+# Redux Chrome Extension
 
 **work in progress**
 
@@ -34,7 +34,7 @@ Browserify and Watchify are used for building scripts and it's blazing fast. For
 - You can gen more info by reading comments /src/files
 - There is also distinction between which code belong to example a which code is React/Redux itself
 
-##Schema
+## Schema
 
 Uses (https://developer.chrome.com/extensions/messaging)
 
@@ -74,7 +74,7 @@ gulp release
 
 You can find .zip packages in the /dist folder.
 
-##Data passing
+## Data passing
 If you understand the Schema above, you see that not every part of extension talk to each other. 
 That's because of in certain cases it doesn't make sense to notify the part, that would otherwise load the whole state from Background Page again.
 
@@ -86,7 +86,7 @@ So it doesn't make sense to send any changes from Content Script to Popup Window
 On the other hand Content Script is living behind every tab all the time, so we need to propagate store changes in Popop Window to Content Scripts immediately.
 
 
-##Storage
+## Storage
 All the data we need to keep stored in extension after closing Chrome or disabling Extension are being saved to localStorage.
 
 
@@ -94,7 +94,7 @@ You can modify localStorage indirectly by changing `state.persistent` property, 
 
 
 
-##TODO
+## TODO
 
 - Hot loading of Reducers
 
